@@ -11,7 +11,9 @@ jobs:
     - name: Run a multi-line script
       run: |
         echo "::set-env name=REPORT_PATH::$GITHUB_SHA" 
+        echo "::set-env name=TEST::hello" 
         echo 'hi' 
         env
         echo $GITHUB_SHA
         echo $REPORT_PATH 
+        echo $TEST
