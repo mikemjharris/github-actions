@@ -12,4 +12,6 @@ jobs:
       run: |
         echo "::set-env name=REPORT_PATH::$GITHUB_SHA" 
         echo 'hi' 
+        env
+        echo $GITHUB_SHA
         echo $REPORT_PATH 
