@@ -12,8 +12,16 @@ jobs:
       run: |
         echo "::set-env name=REPORT_PATH::$GITHUB_SHA" 
         echo "::set-env name=TEST::hello" 
+        echo "::set-env name=NODE_ENV::test" # https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
         echo 'hi' 
         env
         echo $GITHUB_SHA
         echo $REPORT_PATH 
         echo $TEST
+        echo $NODE_ENV
+    - name: Run a line script
+      run: |
+        echo $GITHUB_SHA
+        echo $REPORT_PATH 
+        echo $TEST
+        echo $NODE_ENV
