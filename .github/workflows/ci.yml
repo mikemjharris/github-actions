@@ -10,6 +10,6 @@ jobs:
       run: ls
     - name: Run a multi-line script
       run: |
-        echo "::set-env name=REPORT_PATH::${{ 'test-sync/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E/' }}" 
+        echo "::set-env name=REPORT_PATH::$GITHUB_SHA" 
         echo 'hi' 
         echo $REPORT_PATH 
