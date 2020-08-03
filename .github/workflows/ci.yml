@@ -47,3 +47,7 @@ jobs:
         run: echo ${{needs.job1.outputs.output1}}
       - name: Output results 2
         run: echo ${{needs.job1.outputs.output2}}
+      - name: Output results 2
+        run: echo ${{needs.job1.outputs}}
+      - name: Output results 2
+        run: echo ${{needs.job1.needs}}
