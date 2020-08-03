@@ -25,10 +25,11 @@ jobs:
           echo "::set-output name=${{ matrix.tag }}::PASS"
           echo "::set-env name=TTTTY::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
           echo "::set-env name=$GITHUB_SHA::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
+          echo ${{needs.job1.outputs.output1}}
       - id: step1
         run: echo "::set-output name=test::hello"
       - id: step2  
-        run: echo "::set-output name=test::${{ matrix.tag }}"
+        run: echo "::set-output name=${{ matrix.tag }}::test"
           
 
 
@@ -42,16 +43,20 @@ jobs:
       - name: Run a multi-line script
         run: |
           echo "::set-env name=REPORT_PATH::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
-          echo ${{needs.ci-e2e.outputs.matrix}} echo ${{needs.ci-e2e.outputs.TAG}}
+          echo ${{needs.ci-e2e.outputs.matrix}} 
+          echo ${{needs.ci-e2e.outputs.TAG}}
           echo ${{needs.ci-e2e.outputs.action_fruit}}
           echo ${{needs.ci-e2e.outputs.ILD}}
-          echo ${{ fromJson(needs) }}
-          echo ${{ fromJson(env) }}
+          echo $TTTY
+          echo env 
+          echo needs 
+          echo ${{env}}
+          echo ${{ needs.job1.result }}
       - name: Output results 
         run: echo ${{needs.job1.outputs.output1}}
       - name: Output results 2
         run: echo ${{needs.job1.outputs.output2}}
       - name: Output results 2
-        run: echo ${{fromJson(needs.job1.outputs)}}
+        run: echo ${{needs.job1.outputs}}
       - name: Output results 2
-        run: echo ${{fromJson(needs.job1.needs)}}
+        run: echo ${{needs.job1.needs}}
