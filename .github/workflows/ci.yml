@@ -43,6 +43,7 @@ jobs:
           echo ${{needs.ci-e2e.outputs.matrix}} echo ${{needs.ci-e2e.outputs.TAG}}
           echo ${{needs.ci-e2e.outputs.action_fruit}}
           echo ${{needs.ci-e2e.outputs.ILD}}
+          echo ${{ env }}
       - name: Output results 
         run: echo ${{needs.job1.outputs.output1}}
       - name: Output results 2
