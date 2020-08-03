@@ -2,8 +2,11 @@ name: CI
 on: [push]
 
 jobs:
-  ci-e2e-core:
+  job1:
     runs-on: ubuntu-latest
+    outputs:
+      output1:  ${{ steps.step1.outputs.test }} 
+      output2:  ${{ steps.step2.outputs.test }} 
     strategy:
       fail-fast: false # This means the whole matrix runs in parrallel and finishes all parts
       matrix:
@@ -20,11 +23,16 @@ jobs:
           echo "::set-output name=action_fruit::strawberry"
           echo "::set-output name=TAG::${{ matrix.tag }}" 
           echo "::set-output name=${{ matrix.tag }}::PASS"
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - id: step2  
+        run: echo "::set-output name=test::${{ matrix.tag }}"
+          
 
 
   build:
     runs-on: ubuntu-latest
-    needs: ci-e2e-core
+    needs: job1 
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
@@ -32,8 +40,10 @@ jobs:
       - name: Run a multi-line script
         run: |
           echo "::set-env name=REPORT_PATH::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
-          echo ${{needs.ci-e2e.outputs}}
-          echo ${{needs.ci-e2e.outputs.matrix}}
-          echo ${{needs.ci-e2e.outputs.TAG}}
+          echo ${{needs.ci-e2e.outputs.matrix}} echo ${{needs.ci-e2e.outputs.TAG}}
           echo ${{needs.ci-e2e.outputs.action_fruit}}
           echo ${{needs.ci-e2e.outputs.ILD}}
+      - name: Output results 
+        run: echo ${{needs.job1.outputs.output1}}
+      - name: Output results 2
+        run: echo ${{needs.job1.outputs.output2}}
