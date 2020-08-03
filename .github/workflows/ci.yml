@@ -2,26 +2,38 @@ name: CI
 on: [push]
 
 jobs:
+  ci-e2e-core:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # This means the whole matrix runs in parrallel and finishes all parts
+      matrix:
+        tag: ['@OPTEDOUTUS', '@ILD', '@WAYES', '@BFNEDIT'] # these seem the most stable so using them for now
+        # tag: ['@AMAZONPAYQUICK', '@BFNFR', '@ILY', '@OPTEDOUTUS', '@BFNEDIT', '@WAYDE'] this is the aim
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.16.3
+      - name: Setup variables and relevevant directories for reports and screen shots. 
+        run: |
+          echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+          echo "::set-output name=action_fruit::strawberry"
+          echo "::set-output name=TAG::${{ matrix.tag }}" 
+          echo "::set-output name=${{ matrix.tag }}::PASS"
+
+
   build:
     runs-on: ubuntu-latest
+    needs: ci-e2e-core
     steps:
-    - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: ls
-    - name: Run a multi-line script
-      run: |
-        echo "::set-env name=REPORT_PATH::test-sync/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E/" 
-        echo "::set-env name=TEST::hello" 
-        echo "::set-env name=NODE_ENV::test" # https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-        echo 'hi' 
-        env
-        echo $GITHUB_SHA
-        echo $REPORT_PATH 
-        echo $TEST
-        echo $NODE_ENV
-    - name: Run a line script
-      run: |
-        echo $GITHUB_SHA
-        echo $REPORT_PATH 
-        echo $TEST
-        echo $NODE_ENV
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: ls
+      - name: Run a multi-line script
+        run: |
+          echo "::set-env name=REPORT_PATH::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
+          echo ${{needs.ci-e2e.outputs}}
+          echo ${{needs.ci-e2e.outputs.matrix}}
+          echo ${{needs.ci-e2e.outputs.TAG}}
+          echo ${{needs.ci-e2e.outputs.action_fruit}}
+          echo ${{needs.ci-e2e.outputs.ILD}}
