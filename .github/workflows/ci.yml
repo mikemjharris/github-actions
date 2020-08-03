@@ -23,7 +23,8 @@ jobs:
           echo "::set-output name=action_fruit::strawberry"
           echo "::set-output name=TAG::${{ matrix.tag }}" 
           echo "::set-output name=${{ matrix.tag }}::PASS"
-          echo "::set-env testtt=REPORT_PATH::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
+          echo "::set-env name=TTTTY::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
+          echo "::set-env name=$GITHUB_SHA::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
       - id: step1
         run: echo "::set-output name=test::hello"
       - id: step2  
