@@ -23,6 +23,7 @@ jobs:
           echo "::set-output name=action_fruit::strawberry"
           echo "::set-output name=TAG::${{ matrix.tag }}" 
           echo "::set-output name=${{ matrix.tag }}::PASS"
+          echo "::set-env testtt=REPORT_PATH::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
       - id: step1
         run: echo "::set-output name=test::hello"
       - id: step2  
@@ -43,12 +44,13 @@ jobs:
           echo ${{needs.ci-e2e.outputs.matrix}} echo ${{needs.ci-e2e.outputs.TAG}}
           echo ${{needs.ci-e2e.outputs.action_fruit}}
           echo ${{needs.ci-e2e.outputs.ILD}}
-          echo ${{ env }}
+          echo ${{ fromJson(needs) }}
+          echo ${{ fromJson(env) }}
       - name: Output results 
         run: echo ${{needs.job1.outputs.output1}}
       - name: Output results 2
         run: echo ${{needs.job1.outputs.output2}}
       - name: Output results 2
-        run: echo ${{needs.job1.outputs}}
+        run: echo ${{fromJson(needs.job1.outputs)}}
       - name: Output results 2
-        run: echo ${{needs.job1.needs}}
+        run: echo ${{fromJson(needs.job1.needs)}}
