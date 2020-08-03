@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false # This means the whole matrix runs in parrallel and finishes all parts
       matrix:
-        tag: ['@OPTEDOUTUS', '@ILD', '@WAYES', '@BFNEDIT'] # these seem the most stable so using them for now
+        tag: ['OPTEDOUTUS', 'ILD', 'WAYES', 'BFNEDIT'] # these seem the most stable so using them for now
         # tag: ['@AMAZONPAYQUICK', '@BFNFR', '@ILY', '@OPTEDOUTUS', '@BFNEDIT', '@WAYDE'] this is the aim
     steps:
       - uses: actions/checkout@v2
@@ -22,10 +22,19 @@ jobs:
           echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
           echo "::set-output name=action_fruit::strawberry"
           echo "::set-output name=TAG::${{ matrix.tag }}" 
+          echo "::set-env name=TAG::${{ matrix.tag }}" 
           echo "::set-output name=${{ matrix.tag }}::PASS"
           echo "::set-env name=TTTTY::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
           echo "::set-env name=$GITHUB_SHA::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
-          echo ${{needs.job1.outputs.output1}}
+      - shell: bash
+        run: |
+          echo 'pass' > "$TAG"
+          ls
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v2
+        with:
+          name: $TAG 
+          path: $TAG 
       - id: step1
         run: echo "::set-output name=$TAG::hello"
       - id: step2  
@@ -78,6 +87,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
+        run: ls
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v2
+        with:
+          name: ILD 
+      - shell: bash
         run: ls
       - name: Run a multi-line script
         run: |
