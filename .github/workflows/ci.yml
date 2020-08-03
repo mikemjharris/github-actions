@@ -33,8 +33,8 @@ jobs:
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ $TAG }} 
-          path: ${{ $TAG }}
+          name: ${{ matrix.tag }} 
+          path: ${{ matrix.tag }}
       - id: step1
         run: echo "::set-output name=$TAG::hello"
       - id: step2  
