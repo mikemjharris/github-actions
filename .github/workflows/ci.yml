@@ -27,9 +27,9 @@ jobs:
           echo "::set-env name=$GITHUB_SHA::test-sync/e2e-scheduled/$GITHUB_SHA/$GITHUB_RUN_NUMBER/E2E" 
           echo ${{needs.job1.outputs.output1}}
       - id: step1
-        run: echo "::set-output name=test::hello"
+        run: echo "::set-output name=$TAG::hello"
       - id: step2  
-        run: echo "::set-output name=${{ matrix.tag }}::test"
+        run: echo "::set-output name=$GITHUB_SHA::test"
       - name: Output results 
         run: echo ${{needs.job1.outputs.output1}}
       - name: Output results 2
